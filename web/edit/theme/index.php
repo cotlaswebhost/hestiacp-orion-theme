@@ -80,7 +80,9 @@ if (!empty($_POST) && $token == $_POST['token']) {
                 file_put_contents($theme_config_path, json_encode($config, JSON_PRETTY_PRINT));
                 $_SESSION['error_msg'] = _('Theme updated successfully');
             } else {
-                $_SESSION['error_msg'] = _('Error uploading logo');
+                // Debugging
+                $error = error_get_last();
+                $_SESSION['error_msg'] = _('Error uploading logo: ') . ($error['message'] ?? 'Unknown error');
             }
         } else {
             $_SESSION['error_msg'] = _('Invalid file type');
@@ -95,4 +97,7 @@ if (!empty($_POST) && $token == $_POST['token']) {
 }
 
 // Render Page
+require_once($_SERVER['HESTIA'] . '/web/templates/header.php');
+require_once($_SERVER['HESTIA'] . '/web/templates/includes/panel.php');
 require_once($_SERVER['HESTIA'] . '/web/templates/pages/edit_theme.php');
+require_once($_SERVER['HESTIA'] . '/web/templates/includes/footer.php');

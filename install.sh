@@ -59,6 +59,20 @@ touch "$HESTIA_WEB_DIR/inc/orion_config.json"
 # 3. Set Permissions
 echo "Setting permissions..."
 chown -R root:root "$HESTIA_WEB_DIR"
+
+# Allow hestiaweb user (admin panel) to write to specific directories for theme customization
+chown -R root:hestiaweb "$HESTIA_WEB_DIR/images/"
+chmod -R 775 "$HESTIA_WEB_DIR/images/"
+
+chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/"
+chmod 775 "$HESTIA_WEB_DIR/css/custom/"
+chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+chmod 664 "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+
+chown root:hestiaweb "$HESTIA_WEB_DIR/inc/"
+chmod 775 "$HESTIA_WEB_DIR/inc/"
+chown root:hestiaweb "$HESTIA_WEB_DIR/inc/orion_config.json"
+chmod 664 "$HESTIA_WEB_DIR/inc/orion_config.json"
 find "$HESTIA_WEB_DIR" -type f -exec chmod 644 {} \;
 find "$HESTIA_WEB_DIR" -type d -exec chmod 755 {} \;
 
