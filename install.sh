@@ -37,6 +37,10 @@ backup_file "$HESTIA_WEB_DIR/templates/includes/panel.php"
 backup_file "$HESTIA_WEB_DIR/templates/includes/panel_orion.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/list_dashboard.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/list_dashboard_admin.php"
+backup_file "$HESTIA_WEB_DIR/templates/pages/login/login.php"
+backup_file "$HESTIA_WEB_DIR/templates/pages/login/login_1.php"
+backup_file "$HESTIA_WEB_DIR/templates/pages/login/login_2.php"
+backup_file "$HESTIA_WEB_DIR/templates/pages/login/login_a.php"
 backup_file "$HESTIA_WEB_DIR/images/logo.svg"
 
 # 2. Install New Files
