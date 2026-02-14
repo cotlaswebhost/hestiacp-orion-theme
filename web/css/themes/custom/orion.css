@@ -1,0 +1,421 @@
+/* Orion Layout Shell & Dashboard Styles */
+:root {
+  --orion-sidebar-width: 260px;
+  --orion-header-height: 70px;
+}
+
+/* Global Reset overrides */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f1f5f9;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Login Page Specifics */
+body.page-login {
+    background-color: #f1f5f9;
+}
+.login {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    max-width: 400px;
+    margin: 80px auto;
+    /* User Requested Fixes */
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+.login-title {
+    color: #1e293b;
+    margin-bottom: 5px !important;
+    font-size: 1rem !important;
+}
+.login .u-mb40 {
+    margin-bottom: 0px !important;
+}
+/* End Login Page Specifics */
+
+/* Sidebar */
+.orion-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100vh;
+  width: var(--orion-sidebar-width);
+  background: #fbfcff; /* White sidebar */
+  color: #151516;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  border-right: none;
+  box-shadow: 4px 0 12px rgba(0,0,0,0.05);
+}
+
+.orion-logo-wrapper {
+  min-height: var(--orion-header-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  background: transparent;
+}
+
+.orion-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #151516;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.orion-nav {
+  list-style: none;
+  padding: 24px 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.orion-nav a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #151516;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.orion-nav li.active a, .orion-nav a:hover {
+  background: #eef2ff;
+  color: #3b82f6;
+  box-shadow: none;
+}
+
+.orion-nav svg {
+  width: 20px;
+  height: 20px;
+  opacity: 0.9;
+}
+
+/* Header (Right of Sidebar) */
+.orion-header {
+  position: sticky;
+  top: 0;
+  margin-left: var(--orion-sidebar-width);
+  width: calc(100% - var(--orion-sidebar-width));
+  z-index: 90;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  height: var(--orion-header-height);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  flex: none;
+  padding-top: 0;
+}
+
+.orion-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 12px;
+}
+
+.orion-topbar-left {
+  /* Placeholder for breadcrumbs or title */
+}
+
+.orion-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.orion-usage {
+  display: flex;
+  gap: 24px;
+  font-size: 0.875rem;
+  color: #64748b;
+  padding-right: 24px;
+  border-right: 1px solid #f1f5f9;
+  align-items: center;
+}
+
+.orion-usage-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.orion-usage-item strong {
+  color: #334155;
+  font-weight: 600;
+}
+
+.orion-search input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  width: 260px;
+  transition: all 0.2s;
+}
+.orion-search input:focus {
+  background: #fff;
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.orion-logout {
+  color: #64748b;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  background: #f8fafc;
+}
+.orion-logout:hover {
+  color: #ef4444;
+  background: #fee2e2;
+}
+
+/* Main Content Area (Boxed Layout) */
+.orion-content {
+  margin-left: var(--orion-sidebar-width);
+  padding: 40px;
+  min-height: calc(100vh - var(--orion-header-height));
+}
+
+/* --- Dashboard Specific Styles --- */
+
+.user-dashboard {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Top Stats Cards */
+.dash-blocks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.dash-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0,0,0,0.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dash-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+}
+
+.dash-card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.dash-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dash-label {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dash-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* Dashboard Sections */
+.dash-section {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 32px;
+  box-shadow: none;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.dash-section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  background-color: #ecf4fb;
+  border-radius: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dash-section-header i {
+  font-size: 1rem;
+  color: #ffffff;
+  background: #f17205;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.dash-section-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+}
+
+/* Icons Grid */
+.dash-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 32px;
+}
+
+.dash-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  background: #f8fafc;
+  border: 1px solid transparent;
+}
+
+.dash-icon-item:hover {
+  background: #fff;
+  border-color: #e2e8f0;
+}
+
+.dash-icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: unset;
+  background: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  transition: none;
+  color: #394048;
+  box-shadow: none;
+}
+
+.dash-icon-item:hover .dash-icon-circle {
+  transform: none;
+}
+
+.dash-icon-item span {
+  font-size: 0.95rem;
+  color: #475569;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Color Utilities for Top Cards */
+.bg-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.bg-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.bg-green { background: linear-gradient(135deg, #10b981, #059669); }
+.bg-orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.bg-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+/* Icon Colors - Just orange for everything now as requested? 
+   "change dash icon css to this... color: #f17205" 
+   But then user said "white icons on blue/colored buttons" for buttons. 
+   I will keep the specific classes but apply the requested circle style.
+   Wait, the user pasted CSS for .dash-icon-circle with color #f17205. 
+   So I should probably remove the specific color overrides for the circles if they want all orange, 
+   OR apply the orange color to the specific classes if they want them all orange. 
+   The user said "icons are stilll appear bad... use light color icon on dar background" in previous turn,
+   BUT in this turn provided specific CSS: "change dash icon css to this... color: #f17205".
+   I will follow the LATEST CSS provided. */
+
+.text-blue .dash-icon-circle,
+.text-purple .dash-icon-circle,
+.text-green .dash-icon-circle,
+.text-orange .dash-icon-circle,
+.text-red .dash-icon-circle,
+.text-yellow .dash-icon-circle,
+.text-gray .dash-icon-circle { 
+    color: #394048; 
+    background: transparent; 
+}
+
+/* Buttons */
+.btn, button, .button {
+    border-radius: 4px;
+}
+
+/* Footer Alignment */
+.app-footer {
+    margin-left: var(--orion-sidebar-width);
+    width: calc(100% - var(--orion-sidebar-width));
+    background-color: #ffffff;
+}
+
+.toolbar {
+    background-color: unset;
+    border-top: unset;
+    border-bottom: unset;
+    padding-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  :root { --orion-sidebar-width: 0px; }
+  .orion-sidebar { display: none; }
+  .orion-header { margin-left: 0; width: 100%; }
+  .orion-content { margin-left: 0; padding: 20px; }
+  .app-footer { margin-left: 0; width: 100%; }
+}
+
+@media (min-width: 768px) {
+    .button-floating {
+        bottom: 30px!important;
+    }
+}
