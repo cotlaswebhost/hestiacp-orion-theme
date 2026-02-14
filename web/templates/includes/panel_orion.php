@@ -3,7 +3,28 @@
 <aside class="orion-sidebar">
 	<div class="orion-logo-wrapper">
 		<a href="<?= ($_SESSION["userContext"] === "admin" && empty($_SESSION["look"])) ? "/list/user/" : "/list/dashboard/" ?>" class="orion-logo" title="<?= htmlentities($_SESSION["APP_NAME"]) ?>">
-			<img src="/images/logo.svg" alt="<?= htmlentities($_SESSION["APP_NAME"]) ?>" style="max-height: 40px; max-width: 100%;">
+			<?php
+			    // Check for custom logo from theme settings
+			    $logo_src = "/images/logo.svg";
+			    $logo_style = "max-height: 50px; max-width: 100%;";
+			    
+			    if (file_exists($_SERVER['HESTIA'] . '/web/inc/orion_config.json')) {
+			        $theme_config = json_decode(file_get_contents($_SERVER['HESTIA'] . '/web/inc/orion_config.json'), true);
+			        if (!empty($theme_config['logo_ext'])) {
+			            $custom_logo = '/images/custom-logo.' . $theme_config['logo_ext'];
+			            if (file_exists($_SERVER['HESTIA'] . '/web' . $custom_logo)) {
+			                $logo_src = $custom_logo;
+			            }
+			        }
+			        if (!empty($theme_config['logo_height'])) {
+			            $logo_style = "max-height: " . $theme_config['logo_height'] . ";";
+			        }
+			        if (!empty($theme_config['logo_width'])) {
+			            $logo_style .= " max-width: " . $theme_config['logo_width'] . "; width: auto;";
+			        }
+			    }
+			?>
+			<img src="<?= $logo_src ?>" alt="<?= htmlentities($_SESSION["APP_NAME"]) ?>" style="<?= $logo_style ?>">
 		</a>
 	</div>
 	<ul class="orion-nav">

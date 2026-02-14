@@ -164,6 +164,12 @@
                 </div>
                 <span><?= _("Restart Services") ?></span>
             </a>
+            <a href="/edit/theme/" class="dash-icon-item">
+                <div class="dash-icon-circle text-purple">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <span><?= _("Theme") ?></span>
+            </a>
             <a href="/list/ip/" class="dash-icon-item">
                 <div class="dash-icon-circle text-purple">
                     <i class="fas fa-network-wired"></i>

@@ -39,6 +39,8 @@ backup_file "$HESTIA_WEB_DIR/templates/includes/panel.php"
 backup_file "$HESTIA_WEB_DIR/templates/includes/panel_orion.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/list_dashboard.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/list_dashboard_admin.php"
+backup_file "$HESTIA_WEB_DIR/templates/pages/edit_theme.php"
+backup_file "$HESTIA_WEB_DIR/edit/theme/index.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/login/login.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/login/login_1.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/login/login_2.php"
@@ -49,6 +51,10 @@ backup_file "$HESTIA_WEB_DIR/images/logo.svg"
 echo "Installing new theme files..."
 
 cp -rf "$THEME_DIR/web/"* "$HESTIA_WEB_DIR/"
+
+# Ensure custom CSS file exists or is writable if it doesn't
+touch "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+touch "$HESTIA_WEB_DIR/inc/orion_config.json"
 
 # 3. Set Permissions
 echo "Setting permissions..."
