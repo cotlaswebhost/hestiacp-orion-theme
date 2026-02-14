@@ -75,7 +75,18 @@ if (!empty($_POST) && $token == $_POST['token']) {
                 }
             }
             
-            if (move_uploaded_file($_FILES['logo_file']['tmp_name'], $target)) {
+            // Try move_uploaded_file first
+            $moved = move_uploaded_file($_FILES['logo_file']['tmp_name'], $target);
+            
+            // Fallback to copy if move fails (sometimes helpful with permission quirks)
+            if (!$moved) {
+                $moved = copy($_FILES['logo_file']['tmp_name'], $target);
+            }
+            
+            if ($moved) {
+                // Ensure readability
+                chmod($target, 0644);
+                
                 $config['logo_ext'] = $ext;
                 file_put_contents($theme_config_path, json_encode($config, JSON_PRETTY_PRINT));
                 $_SESSION['error_msg'] = _('Theme updated successfully');
