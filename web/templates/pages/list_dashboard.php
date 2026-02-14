@@ -248,6 +248,12 @@
                 </div>
                 <span><?= _("Backups") ?></span>
             </a>
+            <a href="/schedule/backup/?token=<?= $_SESSION['token'] ?>" class="dash-icon-item">
+                <div class="dash-icon-circle text-green">
+                    <i class="fas fa-save"></i>
+                </div>
+                <span><?= _("Create Backup") ?></span>
+            </a>
             <a href="/list/ftp/" class="dash-icon-item">
                 <div class="dash-icon-circle text-purple">
                     <i class="fas fa-network-wired"></i>

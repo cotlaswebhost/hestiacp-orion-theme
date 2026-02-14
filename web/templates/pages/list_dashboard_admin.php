@@ -282,7 +282,7 @@
                 </div>
                 <span><?= _("Backups") ?></span>
             </a>
-            <a href="/list/backup/?backup=yes" class="dash-icon-item">
+            <a href="/schedule/backup/?token=<?= $_SESSION['token'] ?>" class="dash-icon-item">
                 <div class="dash-icon-circle text-green">
                     <i class="fas fa-save"></i>
                 </div>
