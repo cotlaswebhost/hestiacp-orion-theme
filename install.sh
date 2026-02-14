@@ -5,7 +5,8 @@
 
 THEME_DIR=$(dirname "$0")
 HESTIA_WEB_DIR="/usr/local/hestia/web"
-BACKUP_DIR="/root/hestiacp-theme-backup-$(date +%Y%m%d%H%M%S)"
+BACKUP_ROOT="/root/hestiacp-theme-backup"
+BACKUP_DIR="$BACKUP_ROOT/theme-backup-$(date +%Y%m%d%H%M%S)"
 
 echo "Starting Orion Theme Installation..."
 
