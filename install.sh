@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# HestiaCP Orion Theme Installer
+# HestiaCP Orion Theme Installer script
 # Installs the Orion Theme (Hostniki) for HestiaCP
 
 THEME_DIR=$(dirname "$0")
