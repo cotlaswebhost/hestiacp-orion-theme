@@ -61,20 +61,18 @@ echo "Setting permissions..."
 chown -R root:root "$HESTIA_WEB_DIR"
 
 # Allow hestiaweb user (admin panel) to write to specific directories for theme customization
-# We use root:hestiaweb and 775 to allow the web interface (running as hestiaweb group) to write
-# while keeping it restricted from other users.
-chown -R root:hestiaweb "$HESTIA_WEB_DIR/images/"
-chmod -R 775 "$HESTIA_WEB_DIR/images/"
+# We use 777 to allow write access regardless of the specific PHP user/group configuration on the server.
+# While 775 with correct ownership is preferred, detecting the correct runtime user across different 
+# HestiaCP versions/OSs is unreliable, leading to "permission denied" errors.
+# Security Note: These directories only contain static assets (images, css) and config JSON.
+# Execution of scripts should be blocked in these directories by the web server config.
+chmod 777 "$HESTIA_WEB_DIR/images/"
 
-chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/"
-chmod 775 "$HESTIA_WEB_DIR/css/custom/"
-chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/orion-custom.css" 2>/dev/null || touch "$HESTIA_WEB_DIR/css/custom/orion-custom.css" && chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
-chmod 664 "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+chmod 777 "$HESTIA_WEB_DIR/css/custom/"
+chmod 666 "$HESTIA_WEB_DIR/css/custom/orion-custom.css" 2>/dev/null || touch "$HESTIA_WEB_DIR/css/custom/orion-custom.css" && chmod 666 "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
 
-chown root:hestiaweb "$HESTIA_WEB_DIR/inc/"
-chmod 775 "$HESTIA_WEB_DIR/inc/"
-chown root:hestiaweb "$HESTIA_WEB_DIR/inc/orion_config.json" 2>/dev/null || touch "$HESTIA_WEB_DIR/inc/orion_config.json" && chown root:hestiaweb "$HESTIA_WEB_DIR/inc/orion_config.json"
-chmod 664 "$HESTIA_WEB_DIR/inc/orion_config.json"
+chmod 777 "$HESTIA_WEB_DIR/inc/"
+chmod 666 "$HESTIA_WEB_DIR/inc/orion_config.json" 2>/dev/null || touch "$HESTIA_WEB_DIR/inc/orion_config.json" && chmod 666 "$HESTIA_WEB_DIR/inc/orion_config.json"
 find "$HESTIA_WEB_DIR" -type f -exec chmod 644 {} \;
 find "$HESTIA_WEB_DIR" -type d -exec chmod 755 {} \;
 
