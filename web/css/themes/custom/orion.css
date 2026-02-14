@@ -391,6 +391,25 @@ body.page-login {
     border-radius: 4px;
 }
 
+/* Force Orion Blue Buttons for Primary Actions */
+.btn-success, .btn-primary, .btn-warning, .data-controls .btn, .data-controls .button {
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    color: #ffffff !important;
+    background-image: none !important;
+}
+
+.btn-success:hover, .btn-primary:hover, .btn-warning:hover, .data-controls .btn:hover, .data-controls .button:hover {
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+}
+
+/* Specific override for "Add" type buttons if they differ */
+.btn-success {
+    background-color: #3b82f6 !important;
+}
+
 /* Footer Alignment */
 .app-footer {
     margin-left: var(--orion-sidebar-width);
