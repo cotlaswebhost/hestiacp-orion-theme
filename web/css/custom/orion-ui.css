@@ -402,7 +402,13 @@ body.page-login {
     background-color: unset;
     border-top: unset;
     border-bottom: unset;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    display: flex;
+    position: relative;
+    top: 0px;
 }
 
 /* Responsive */
