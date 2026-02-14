@@ -405,25 +405,41 @@ body.page-login {
 /* Buttons */
 .btn, button, .button {
     border-radius: 4px;
+    background: linear-gradient(180deg, var(--orion-accent), var(--orion-accent-600));
+    color: #fff;
+    border: 0;
+    padding: .5rem .9rem;
 }
 
-/* Force Orion Blue Buttons for Primary Actions */
+input[type="submit"], input[type="button"] {
+    background: linear-gradient(180deg, var(--orion-accent), var(--orion-accent-600));
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    padding: .5rem .9rem;
+}
+
+.btn:hover, button:hover, .button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+    filter: brightness(.95);
+}
+
+/* Force Orion Blue Buttons for Primary Actions - override gradient if needed, or keep it */
+/* If we want the gradient from the min.css, we should use it here too */
 .btn-success, .btn-primary, .btn-warning, .data-controls .btn, .data-controls .button {
-    background-color: #3b82f6 !important;
-    border-color: #3b82f6 !important;
+    background: linear-gradient(180deg, var(--orion-accent), var(--orion-accent-600)) !important;
+    border-color: transparent !important;
     color: #ffffff !important;
-    background-image: none !important;
+    background-image: linear-gradient(180deg, var(--orion-accent), var(--orion-accent-600)) !important;
 }
 
 .btn-success:hover, .btn-primary:hover, .btn-warning:hover, .data-controls .btn:hover, .data-controls .button:hover {
-    background-color: #2563eb !important;
-    border-color: #2563eb !important;
-    color: #ffffff !important;
+    filter: brightness(.95) !important;
+    background-color: var(--orion-accent-600) !important;
 }
 
 /* Specific override for "Add" type buttons if they differ */
 .btn-success {
-    background-color: #3b82f6 !important;
+    background: linear-gradient(180deg, var(--orion-accent), var(--orion-accent-600)) !important;
 }
 
 /* Footer Alignment */

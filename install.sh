@@ -27,6 +27,8 @@ backup_file() {
 
 # List of files to backup (matching the structure we are installing)
 backup_file "$HESTIA_WEB_DIR/css/custom/orion-ui.css"
+backup_file "$HESTIA_WEB_DIR/css/themes/custom/orion.css"
+backup_file "$HESTIA_WEB_DIR/css/themes/custom/orion.min.css"
 backup_file "$HESTIA_WEB_DIR/inc/main.php"
 backup_file "$HESTIA_WEB_DIR/inc/prevent_csrf.php"
 backup_file "$HESTIA_WEB_DIR/inc/version.php"
