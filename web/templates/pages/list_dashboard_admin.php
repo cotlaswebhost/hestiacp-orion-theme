@@ -111,7 +111,7 @@
                             unset($output);
                         }
                         
-                        echo humanize_usage_size($total_disk_usage) . " / ∞";
+                        echo humanize_usage_size($total_disk_usage) . " " . humanize_usage_measure($total_disk_usage) . " / ∞";
                     ?>
                 </span>
             </div>

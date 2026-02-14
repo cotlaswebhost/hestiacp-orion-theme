@@ -91,14 +91,15 @@
         // Fix: If disk usage is 0, try to fetch it from v-list-user again if not already done
         // We might have done this for domains, but let's be sure for disk too
         if ($stat_disk_u == 0) {
-             $v_user = escapeshellarg($user);
+             // Use the safe quoted user variable we prepared earlier
              $cmd_disk = HESTIA_CMD . "v-list-user $v_user json";
              exec($cmd_disk, $output_disk, $return_var_disk);
              if ($return_var_disk == 0) {
                  $raw_json_disk = implode("\n", $output_disk);
                  $user_data_disk = json_decode($raw_json_disk, true);
-                 if (isset($user_data_disk[$user]['U_DISK'])) {
-                     $stat_disk_u = $user_data_disk[$user]['U_DISK'];
+                 // We need to use the CLEAN username key, not the quoted one
+                 if (isset($user_data_disk[$cmd_user_safe]['U_DISK'])) {
+                     $stat_disk_u = $user_data_disk[$cmd_user_safe]['U_DISK'];
                  }
              }
         }
@@ -134,7 +135,7 @@
             </div>
             <div class="dash-card-content">
                 <span class="dash-label"><?= _("Disk Usage") ?></span>
-                <span class="dash-value"><?= humanize_usage_size($stat_disk_u) ?> / <?= humanize_usage_size($stat_disk_q) ?></span>
+                <span class="dash-value"><?= humanize_usage_size($stat_disk_u) ?> <?= humanize_usage_measure($stat_disk_u) ?> / <?= humanize_usage_size($stat_disk_q) ?> <?= humanize_usage_measure($stat_disk_q) ?></span>
             </div>
         </div>
         <div class="dash-card">
@@ -143,7 +144,7 @@
             </div>
             <div class="dash-card-content">
                 <span class="dash-label"><?= _("Bandwidth") ?></span>
-                <span class="dash-value"><?= humanize_usage_size($stat_bw_u) ?> / <?= humanize_usage_size($stat_bw_q) ?></span>
+                <span class="dash-value"><?= humanize_usage_size($stat_bw_u) ?> <?= humanize_usage_measure($stat_bw_u) ?> / <?= humanize_usage_size($stat_bw_q) ?> <?= humanize_usage_measure($stat_bw_q) ?></span>
             </div>
         </div>
     </div>
