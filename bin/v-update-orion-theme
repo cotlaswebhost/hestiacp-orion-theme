@@ -57,6 +57,21 @@ case $TARGET_TYPE in
         chown root:root "$TARGET_PATH"
         ;;
         
+    "favicon")
+        # Update Favicon
+        if [ -z "$EXTRA_ARG" ]; then
+            EXTRA_ARG="ico"
+        fi
+        
+        # Clean up old favicons
+        rm -f "$HESTIA/web/images/custom-favicon."*
+        
+        TARGET_PATH="$HESTIA/web/images/custom-favicon.$EXTRA_ARG"
+        cp "$SOURCE_FILE" "$TARGET_PATH"
+        chmod 644 "$TARGET_PATH"
+        chown root:root "$TARGET_PATH"
+        ;;
+        
     *)
         echo "Error: Invalid target type. Allowed: css, config, logo"
         exit $E_ARGS

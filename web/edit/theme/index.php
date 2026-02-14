@@ -98,10 +98,42 @@ if (!empty($_POST) && $token == $_POST['token']) {
         } else {
             $_SESSION['error_msg'] = _('Invalid file type');
         }
-    } else {
-        if (empty($_SESSION['error_msg'])) {
-            $_SESSION['error_msg'] = _('Theme settings saved');
+    }
+    
+    // Handle Favicon Upload
+    if (isset($_FILES['favicon_file']) && $_FILES['favicon_file']['error'] == 0) {
+        $allowed = ['image/svg+xml', 'image/png', 'image/vnd.microsoft.icon', 'image/x-icon'];
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $_FILES['favicon_file']['tmp_name']);
+        
+        if (in_array($mime, $allowed)) {
+            // Determine extension
+            $ext = 'svg';
+            if ($mime == 'image/png') $ext = 'png';
+            if ($mime == 'image/vnd.microsoft.icon' || $mime == 'image/x-icon') $ext = 'ico';
+            
+            // Use CLI to move file to protected directory
+            exec(HESTIA_CMD . "v-update-orion-theme " . escapeshellarg($_FILES['favicon_file']['tmp_name']) . " favicon " . $ext, $output, $return_var);
+            
+            if ($return_var == 0) {
+                // Update config with new extension
+                $config['favicon_ext'] = $ext;
+                $temp_config = tempnam(sys_get_temp_dir(), 'orion_conf');
+                file_put_contents($temp_config, json_encode($config, JSON_PRETTY_PRINT));
+                exec(HESTIA_CMD . "v-update-orion-theme " . escapeshellarg($temp_config) . " config", $output, $return_var);
+                unlink($temp_config);
+                
+                $_SESSION['error_msg'] = _('Theme updated successfully');
+            } else {
+                $_SESSION['error_msg'] = _('Error uploading favicon');
+            }
+        } else {
+            $_SESSION['error_msg'] = _('Invalid favicon file type');
         }
+    }
+
+    if (empty($_SESSION['error_msg'])) {
+        $_SESSION['error_msg'] = _('Theme settings saved');
     }
     
     // Redirect to avoid resubmission

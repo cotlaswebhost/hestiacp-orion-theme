@@ -35,6 +35,16 @@
                 </div>
 
                 <div class="units-table-row">
+                    <div class="units-table-cell" style="vertical-align: top; width: 30%;">
+                        <div class="v-unit-title"><?= _('Favicon Upload') ?></div>
+                        <div class="v-unit-desc"><?= _('Upload a custom favicon (SVG, PNG, ICO).') ?> <br><strong><?= _('Please use a square image (e.g. 32x32 or 64x64).') ?></strong></div>
+                    </div>
+                    <div class="units-table-cell">
+                        <input type="file" name="favicon_file" class="v-stnd" />
+                    </div>
+                </div>
+
+                <div class="units-table-row">
                     <div class="units-table-cell" style="vertical-align: top;">
                         <div class="v-unit-title"><?= _('Logo Height (Sidebar)') ?></div>
                         <div class="v-unit-desc"><?= _('CSS value for logo height in sidebar (e.g. 50px, 3rem)') ?></div>
