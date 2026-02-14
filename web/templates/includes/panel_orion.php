@@ -17,10 +17,11 @@
 			            }
 			        }
 			        if (!empty($theme_config['logo_height'])) {
-			            $logo_style = "max-height: " . $theme_config['logo_height'] . ";";
+			            $logo_style = "max-height: " . $theme_config['logo_height'] . " !important;";
 			        }
 			        if (!empty($theme_config['logo_width'])) {
-			            $logo_style .= " max-width: " . $theme_config['logo_width'] . "; width: auto;";
+                        $width_val = $theme_config['logo_width'];
+			            $logo_style .= " max-width: " . $width_val . " !important; width: auto !important;";
 			        }
 			    }
 			?>
