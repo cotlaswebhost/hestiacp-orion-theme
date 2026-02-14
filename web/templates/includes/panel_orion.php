@@ -3,7 +3,7 @@
 <aside class="orion-sidebar">
 	<div class="orion-logo-wrapper">
 		<a href="<?= ($_SESSION["userContext"] === "admin" && empty($_SESSION["look"])) ? "/list/user/" : "/list/dashboard/" ?>" class="orion-logo" title="<?= htmlentities($_SESSION["APP_NAME"]) ?>">
-			<img src="/images/logo-hostniki.png" alt="<?= htmlentities($_SESSION["APP_NAME"]) ?>" style="max-height: 40px; max-width: 100%;">
+			<img src="/images/logo.svg" alt="<?= htmlentities($_SESSION["APP_NAME"]) ?>" style="max-height: 40px; max-width: 100%;">
 		</a>
 	</div>
 	<ul class="orion-nav">
