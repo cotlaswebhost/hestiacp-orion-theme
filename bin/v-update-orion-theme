@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# HestiaCP Orion Theme Update Helper
+# This script allows the web interface to securely update theme assets
+# running as root via sudo wrapper.
+
+source /usr/local/hestia/func/main.sh
+source /usr/local/hestia/conf/hestia.conf
+
+# Arguments
+SOURCE_FILE=$1
+TARGET_TYPE=$2
+EXTRA_ARG=$3
+
+# Validation
+if [ -z "$SOURCE_FILE" ] || [ -z "$TARGET_TYPE" ]; then
+    echo "Usage: v-update-orion-theme SOURCE_FILE TARGET_TYPE [EXTRA]"
+    exit $E_ARGS
+fi
+
+if [ ! -f "$SOURCE_FILE" ]; then
+    echo "Error: Source file does not exist: $SOURCE_FILE"
+    exit $E_NOTEXIST
+fi
+
+# Main Logic
+case $TARGET_TYPE in
+    "css")
+        # Update Custom CSS
+        TARGET_PATH="$HESTIA/web/css/custom/orion-custom.css"
+        cp "$SOURCE_FILE" "$TARGET_PATH"
+        chmod 644 "$TARGET_PATH"
+        chown root:root "$TARGET_PATH"
+        ;;
+        
+    "config")
+        # Update Config JSON
+        TARGET_PATH="$HESTIA/web/inc/orion_config.json"
+        cp "$SOURCE_FILE" "$TARGET_PATH"
+        chmod 644 "$TARGET_PATH"
+        chown root:root "$TARGET_PATH"
+        ;;
+        
+    "logo")
+        # Update Logo
+        # EXTRA_ARG contains the extension (svg, png, jpg)
+        if [ -z "$EXTRA_ARG" ]; then
+            EXTRA_ARG="svg"
+        fi
+        
+        # Clean up old logos to avoid confusion
+        rm -f "$HESTIA/web/images/custom-logo."*
+        
+        TARGET_PATH="$HESTIA/web/images/custom-logo.$EXTRA_ARG"
+        cp "$SOURCE_FILE" "$TARGET_PATH"
+        chmod 644 "$TARGET_PATH"
+        chown root:root "$TARGET_PATH"
+        ;;
+        
+    *)
+        echo "Error: Invalid target type. Allowed: css, config, logo"
+        exit $E_ARGS
+        ;;
+esac
+
+exit $E_OK

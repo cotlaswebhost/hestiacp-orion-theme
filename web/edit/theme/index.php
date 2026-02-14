@@ -43,7 +43,17 @@ if (!empty($_POST) && $token == $_POST['token']) {
     // Save CSS
     if (isset($_POST['custom_css'])) {
         $css_content = $_POST['custom_css'];
-        file_put_contents($theme_css_path, $css_content);
+        
+        // Use temp file and CLI to write securely
+        $temp_file = tempnam(sys_get_temp_dir(), 'orion_css');
+        file_put_contents($temp_file, $css_content);
+        
+        exec(HESTIA_CMD . "v-update-orion-theme " . escapeshellarg($temp_file) . " css", $output, $return_var);
+        unlink($temp_file);
+        
+        if ($return_var != 0) {
+             $_SESSION['error_msg'] = _('Error saving CSS');
+        }
     }
     
     // Save Dimensions
@@ -51,7 +61,11 @@ if (!empty($_POST) && $token == $_POST['token']) {
     $config['logo_width'] = $_POST['logo_width'];
     $config['login_logo_height'] = $_POST['login_logo_height'];
     
-    file_put_contents($theme_config_path, json_encode($config, JSON_PRETTY_PRINT));
+    $temp_config = tempnam(sys_get_temp_dir(), 'orion_conf');
+    file_put_contents($temp_config, json_encode($config, JSON_PRETTY_PRINT));
+    
+    exec(HESTIA_CMD . "v-update-orion-theme " . escapeshellarg($temp_config) . " config", $output, $return_var);
+    unlink($temp_config);
     
     // Handle Logo Upload
     if (isset($_FILES['logo_file']) && $_FILES['logo_file']['error'] == 0) {
@@ -66,40 +80,28 @@ if (!empty($_POST) && $token == $_POST['token']) {
             if ($mime == 'image/jpeg') $ext = 'jpg';
             if ($mime == 'image/gif') $ext = 'gif';
             
-            $target = $_SERVER['HESTIA'] . '/web/images/custom-logo.' . $ext;
+            // Use CLI to move file to protected directory
+            exec(HESTIA_CMD . "v-update-orion-theme " . escapeshellarg($_FILES['logo_file']['tmp_name']) . " logo " . $ext, $output, $return_var);
             
-            // Remove old custom logos to avoid confusion
-            foreach(['svg', 'png', 'jpg', 'gif'] as $e) {
-                if (file_exists($_SERVER['HESTIA'] . '/web/images/custom-logo.' . $e)) {
-                    unlink($_SERVER['HESTIA'] . '/web/images/custom-logo.' . $e);
-                }
-            }
-            
-            // Try move_uploaded_file first
-            $moved = move_uploaded_file($_FILES['logo_file']['tmp_name'], $target);
-            
-            // Fallback to copy if move fails (sometimes helpful with permission quirks)
-            if (!$moved) {
-                $moved = copy($_FILES['logo_file']['tmp_name'], $target);
-            }
-            
-            if ($moved) {
-                // Ensure readability
-                chmod($target, 0644);
-                
+            if ($return_var == 0) {
+                // Update config with new extension
                 $config['logo_ext'] = $ext;
-                file_put_contents($theme_config_path, json_encode($config, JSON_PRETTY_PRINT));
+                $temp_config = tempnam(sys_get_temp_dir(), 'orion_conf');
+                file_put_contents($temp_config, json_encode($config, JSON_PRETTY_PRINT));
+                exec(HESTIA_CMD . "v-update-orion-theme " . escapeshellarg($temp_config) . " config", $output, $return_var);
+                unlink($temp_config);
+                
                 $_SESSION['error_msg'] = _('Theme updated successfully');
             } else {
-                // Debugging
-                $error = error_get_last();
-                $_SESSION['error_msg'] = _('Error uploading logo: ') . ($error['message'] ?? 'Unknown error');
+                $_SESSION['error_msg'] = _('Error uploading logo');
             }
         } else {
             $_SESSION['error_msg'] = _('Invalid file type');
         }
     } else {
-        $_SESSION['error_msg'] = _('Theme settings saved');
+        if (empty($_SESSION['error_msg'])) {
+            $_SESSION['error_msg'] = _('Theme settings saved');
+        }
     }
     
     // Redirect to avoid resubmission
@@ -112,12 +114,11 @@ require_once($_SERVER['HESTIA'] . '/web/templates/header.php');
 require_once($_SERVER['HESTIA'] . '/web/templates/includes/panel.php');
 
 // Check writability for UI feedback
-if (!is_writable($theme_config_path)) {
-    echo '<div class="alert alert-danger" style="margin: 20px;">' . _('Warning: Configuration file is not writable. Please check permissions for ') . $theme_config_path . '</div>';
-}
-if (!is_writable(dirname($theme_logo_path))) {
-    echo '<div class="alert alert-danger" style="margin: 20px;">' . _('Warning: Images directory is not writable. Logo upload may fail. Please check permissions for ') . dirname($theme_logo_path) . '</div>';
-}
+// Note: We use CLI to write, but if CLI fails, we might want to warn. 
+// Actually, checking is_writable here is misleading now because we use sudo wrapper.
+// So we remove the checks or just verify if CLI works.
+// We'll trust the CLI execution result.
+
 
 require_once($_SERVER['HESTIA'] . '/web/templates/pages/edit_theme.php');
 require_once($_SERVER['HESTIA'] . '/web/templates/includes/footer.php');

@@ -52,7 +52,13 @@ echo "Installing new theme files..."
 
 cp -rf "$THEME_DIR/web/"* "$HESTIA_WEB_DIR/"
 
+# Install CLI helper securely
+cp "$THEME_DIR/bin/v-update-orion-theme" "/usr/local/hestia/bin/"
+chmod 755 "/usr/local/hestia/bin/v-update-orion-theme"
+chown root:root "/usr/local/hestia/bin/v-update-orion-theme"
+
 # Ensure custom CSS file exists or is writable if it doesn't
+# Note: With the CLI helper, these can remain root-owned and read-only for others
 touch "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
 touch "$HESTIA_WEB_DIR/inc/orion_config.json"
 
@@ -61,20 +67,34 @@ echo "Setting permissions..."
 chown -R root:root "$HESTIA_WEB_DIR"
 
 # Allow hestiaweb user (admin panel) to write to specific directories for theme customization
-# We use 777 to allow write access regardless of the specific PHP user/group configuration on the server.
-# While 775 with correct ownership is preferred, detecting the correct runtime user across different 
-# HestiaCP versions/OSs is unreliable, leading to "permission denied" errors.
-# Security Note: These directories only contain static assets (images, css) and config JSON.
-# Execution of scripts should be blocked in these directories by the web server config.
-chmod 777 "$HESTIA_WEB_DIR/images/"
+# REVERTED 777: We now use v-update-orion-theme via sudo wrapper, so these directories 
+# can remain secure (root:root 755).
+# We just ensure they exist.
 
-chmod 777 "$HESTIA_WEB_DIR/css/custom/"
-chmod 666 "$HESTIA_WEB_DIR/css/custom/orion-custom.css" 2>/dev/null || touch "$HESTIA_WEB_DIR/css/custom/orion-custom.css" && chmod 666 "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+# Ensure directories exist
+mkdir -p "$HESTIA_WEB_DIR/images/"
+mkdir -p "$HESTIA_WEB_DIR/css/custom/"
+mkdir -p "$HESTIA_WEB_DIR/inc/"
 
-chmod 777 "$HESTIA_WEB_DIR/inc/"
-chmod 666 "$HESTIA_WEB_DIR/inc/orion_config.json" 2>/dev/null || touch "$HESTIA_WEB_DIR/inc/orion_config.json" && chmod 666 "$HESTIA_WEB_DIR/inc/orion_config.json"
+# Reset permissions to secure defaults
+chown root:root "$HESTIA_WEB_DIR/images/"
+chmod 755 "$HESTIA_WEB_DIR/images/"
+
+chown root:root "$HESTIA_WEB_DIR/css/custom/"
+chmod 755 "$HESTIA_WEB_DIR/css/custom/"
+chown root:root "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+chmod 644 "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+
+chown root:root "$HESTIA_WEB_DIR/inc/"
+chmod 755 "$HESTIA_WEB_DIR/inc/"
+chown root:root "$HESTIA_WEB_DIR/inc/orion_config.json"
+chmod 644 "$HESTIA_WEB_DIR/inc/orion_config.json"
+
 find "$HESTIA_WEB_DIR" -type f -exec chmod 644 {} \;
 find "$HESTIA_WEB_DIR" -type d -exec chmod 755 {} \;
+
+# Make sure our binary is executable (again, just in case find rewrote it)
+chmod 755 "/usr/local/hestia/bin/v-update-orion-theme"
 
 echo "Installation complete!"
 echo "Please clear your browser cache and hard refresh to see changes."
