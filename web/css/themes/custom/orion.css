@@ -2,6 +2,15 @@
 :root {
   --orion-sidebar-width: 260px;
   --orion-header-height: 70px;
+  
+  /* Orion Colors from min.css */
+  --orion-accent: #3b82f6;
+  --orion-accent-600: #2563eb;
+  --orion-bg: #f5f7fb;
+  --orion-surface: #fff;
+  --orion-border: #e5e7eb;
+  --orion-text: #0f172a;
+  --orion-muted: #64748b;
 }
 
 /* Global Reset overrides */
