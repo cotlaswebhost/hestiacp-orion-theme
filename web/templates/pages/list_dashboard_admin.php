@@ -90,27 +90,28 @@
                 <span class="dash-label"><?= _("Disk Usage") ?></span>
                 <span class="dash-value">
                     <?php
-                        // Fetch disk usage from system stats if available or fallback to user quota
-                        $disk_usage = '0.00';
-                        $disk_quota = '∞';
+                        // Calculate total disk usage across all users
+                        $total_disk_usage = 0;
+                        $total_disk_quota = 0;
                         
-                        // Try to get admin user stats specifically
-                        if (isset($panel[$user])) {
-                             $disk_usage = humanize_usage_size($panel[$user]["U_DISK"]);
-                             $disk_quota = humanize_usage_size($panel[$user]["DISK_QUOTA"]);
-                        } else {
-                            // Fallback if $panel[$user] isn't populated (rare in dashboard context but possible)
-                            // We can try to load user data if missing
-                            $v_user = escapeshellarg($user);
-                            exec(HESTIA_CMD . "v-list-user " . $v_user . " json", $output, $return_var);
-                            if ($return_var == 0) {
-                                $user_data = json_decode(implode("", $output), true);
-                                $disk_usage = humanize_usage_size($user_data[$user]["U_DISK"]);
-                                $disk_quota = humanize_usage_size($user_data[$user]["DISK_QUOTA"]);
-                                unset($output);
+                        // Execute v-list-users to get data for all users
+                        exec(HESTIA_CMD . "v-list-users json", $output, $return_var);
+                        if ($return_var == 0) {
+                            $users_list = json_decode(implode("", $output), true);
+                            if (is_array($users_list)) {
+                                foreach ($users_list as $u) {
+                                    // U_DISK is usually in MB
+                                    if (isset($u['U_DISK'])) {
+                                        $total_disk_usage += intval($u['U_DISK']);
+                                    }
+                                    // Sum quotas if needed, though usually "server" quota is hard to define sum-wise if some are unlimited
+                                    // But let's just show usage for now or usage / infinity if we treat server as infinite
+                                }
                             }
+                            unset($output);
                         }
-                        echo $disk_usage . ' / ' . $disk_quota;
+                        
+                        echo humanize_usage_size($total_disk_usage) . " / ∞";
                     ?>
                 </span>
             </div>

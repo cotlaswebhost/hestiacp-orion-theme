@@ -87,6 +87,22 @@
         }
 
         $stat_disk_u = isset($user_stats['U_DISK']) ? $user_stats['U_DISK'] : 0;
+        
+        // Fix: If disk usage is 0, try to fetch it from v-list-user again if not already done
+        // We might have done this for domains, but let's be sure for disk too
+        if ($stat_disk_u == 0) {
+             $v_user = escapeshellarg($user);
+             $cmd_disk = HESTIA_CMD . "v-list-user $v_user json";
+             exec($cmd_disk, $output_disk, $return_var_disk);
+             if ($return_var_disk == 0) {
+                 $raw_json_disk = implode("\n", $output_disk);
+                 $user_data_disk = json_decode($raw_json_disk, true);
+                 if (isset($user_data_disk[$user]['U_DISK'])) {
+                     $stat_disk_u = $user_data_disk[$user]['U_DISK'];
+                 }
+             }
+        }
+        
         $stat_disk_q = isset($user_stats['DISK_QUOTA']) ? $user_stats['DISK_QUOTA'] : 'unlimited';
         
         $stat_bw_u = isset($user_stats['U_BANDWIDTH']) ? $user_stats['U_BANDWIDTH'] : 0;

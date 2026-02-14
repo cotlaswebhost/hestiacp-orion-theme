@@ -37,6 +37,7 @@ backup_file "$HESTIA_WEB_DIR/templates/includes/panel.php"
 backup_file "$HESTIA_WEB_DIR/templates/includes/panel_orion.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/list_dashboard.php"
 backup_file "$HESTIA_WEB_DIR/templates/pages/list_dashboard_admin.php"
+backup_file "$HESTIA_WEB_DIR/images/logo.svg"
 
 # 2. Install New Files
 echo "Installing new theme files..."
