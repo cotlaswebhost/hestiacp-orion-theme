@@ -14,7 +14,7 @@ A custom dashboard theme for Hestia Control Panel that provides a modern, clean 
 
 1. Clone this repository to your HestiaCP server (as root):
    ```bash
-   git clone https://github.com/yourusername/hestiacp-orion-theme.git
+   git clone https://github.com/cotlaswebhost/hestiacp-orion-theme.git
    cd hestiacp-orion-theme
    ```
 
