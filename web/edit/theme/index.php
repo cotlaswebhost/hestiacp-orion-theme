@@ -110,5 +110,14 @@ if (!empty($_POST) && $token == $_POST['token']) {
 // Render Page
 require_once($_SERVER['HESTIA'] . '/web/templates/header.php');
 require_once($_SERVER['HESTIA'] . '/web/templates/includes/panel.php');
+
+// Check writability for UI feedback
+if (!is_writable($theme_config_path)) {
+    echo '<div class="alert alert-danger" style="margin: 20px;">' . _('Warning: Configuration file is not writable. Please check permissions for ') . $theme_config_path . '</div>';
+}
+if (!is_writable(dirname($theme_logo_path))) {
+    echo '<div class="alert alert-danger" style="margin: 20px;">' . _('Warning: Images directory is not writable. Logo upload may fail. Please check permissions for ') . dirname($theme_logo_path) . '</div>';
+}
+
 require_once($_SERVER['HESTIA'] . '/web/templates/pages/edit_theme.php');
 require_once($_SERVER['HESTIA'] . '/web/templates/includes/footer.php');

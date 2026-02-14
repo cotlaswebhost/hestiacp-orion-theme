@@ -61,15 +61,20 @@ echo "Setting permissions..."
 chown -R root:root "$HESTIA_WEB_DIR"
 
 # Allow hestiaweb user (admin panel) to write to specific directories for theme customization
-# We use 777 to be absolutely sure it works across different system configurations,
-# as strict ownership (chown) can sometimes be reset or vary by setup.
-chmod 777 "$HESTIA_WEB_DIR/images/"
+# We use root:hestiaweb and 775 to allow the web interface (running as hestiaweb group) to write
+# while keeping it restricted from other users.
+chown -R root:hestiaweb "$HESTIA_WEB_DIR/images/"
+chmod -R 775 "$HESTIA_WEB_DIR/images/"
 
-chmod 777 "$HESTIA_WEB_DIR/css/custom/"
-chmod 666 "$HESTIA_WEB_DIR/css/custom/orion-custom.css" 2>/dev/null || touch "$HESTIA_WEB_DIR/css/custom/orion-custom.css" && chmod 666 "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/"
+chmod 775 "$HESTIA_WEB_DIR/css/custom/"
+chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/orion-custom.css" 2>/dev/null || touch "$HESTIA_WEB_DIR/css/custom/orion-custom.css" && chown root:hestiaweb "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
+chmod 664 "$HESTIA_WEB_DIR/css/custom/orion-custom.css"
 
-chmod 777 "$HESTIA_WEB_DIR/inc/"
-chmod 666 "$HESTIA_WEB_DIR/inc/orion_config.json" 2>/dev/null || touch "$HESTIA_WEB_DIR/inc/orion_config.json" && chmod 666 "$HESTIA_WEB_DIR/inc/orion_config.json"
+chown root:hestiaweb "$HESTIA_WEB_DIR/inc/"
+chmod 775 "$HESTIA_WEB_DIR/inc/"
+chown root:hestiaweb "$HESTIA_WEB_DIR/inc/orion_config.json" 2>/dev/null || touch "$HESTIA_WEB_DIR/inc/orion_config.json" && chown root:hestiaweb "$HESTIA_WEB_DIR/inc/orion_config.json"
+chmod 664 "$HESTIA_WEB_DIR/inc/orion_config.json"
 find "$HESTIA_WEB_DIR" -type f -exec chmod 644 {} \;
 find "$HESTIA_WEB_DIR" -type d -exec chmod 755 {} \;
 
