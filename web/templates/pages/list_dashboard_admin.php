@@ -9,11 +9,11 @@
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
             <div>
-                <strong style="display: block; color: #64748b; font-size: 0.85rem; margin-bottom: 5px;"><?= _("Hostname") ?></strong>
+                <strong style="display: block;color: #eb930a;font-size: 1rem;margin-bottom: 5px;"><?= _("Hostname") ?></strong>
                 <span style="font-size: 0.8rem;word-wrap: break-word;font-weight: 600;color: #1e293b;"><?= $_SERVER['HTTP_HOST'] ?></span>
             </div>
             <div>
-                <strong style="display: block; color: #64748b; font-size: 0.85rem; margin-bottom: 5px;"><?= _("OS") ?></strong>
+                <strong style="display: block;color: #eb930a;font-size: 1rem;margin-bottom: 5px;"><?= _("OS") ?></strong>
                 <span style="font-size: 0.8rem;word-wrap: break-word;font-weight: 600;color: #1e293b;">
                     <?php 
                         $os_release = shell_exec('cat /etc/os-release | grep "PRETTY_NAME" | cut -d= -f2 | tr -d \'"\'');
@@ -22,7 +22,7 @@
                 </span>
             </div>
             <div>
-                <strong style="display: block; color: #64748b; font-size: 0.85rem; margin-bottom: 5px;"><?= _("Uptime") ?></strong>
+                <strong style="display: block;color: #eb930a;font-size: 1rem;margin-bottom: 5px;"><?= _("Uptime") ?></strong>
                 <span style="font-size: 0.8rem;word-wrap: break-word;font-weight: 600;color: #1e293b;">
                     <?php 
                         $uptime = shell_exec("uptime -p"); 
@@ -31,7 +31,7 @@
                 </span>
             </div>
             <div>
-                <strong style="display: block; color: #64748b; font-size: 0.85rem; margin-bottom: 5px;"><?= _("Hestia Version") ?></strong>
+                <strong style="display: block;color: #eb930a;font-size: 1rem;margin-bottom: 5px;"><?= _("Hestia Version") ?></strong>
                 <span style="font-size: 0.8rem;word-wrap: break-word;font-weight: 600;color: #1e293b;">
                     <?php 
                         if (file_exists($_SERVER['HESTIA'].'/web/inc/version.php')) {
