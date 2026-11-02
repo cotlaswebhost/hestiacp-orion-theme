@@ -99,7 +99,7 @@
 			</a>
 		</li>
 		<?php } ?>
-		<?php if (isset($_SESSION["FILE_MANAGER"]) && $_SESSION["FILE_MANAGER"] == "true" && !($_SESSION["userContext"] === "admin" && $_SESSION["look"] === "admin" && $_SESSION["POLICY_SYSTEM_PROTECTED_ADMIN"] == "yes")) { ?>
+		<?php if (isset($_SESSION["FILE_MANAGER"]) && $_SESSION["FILE_MANAGER"] == "true" && !($_SESSION["userContext"] === "admin" && $_SESSION["look"] === $_SESSION["ROOT_USER"] && $_SESSION["POLICY_SYSTEM_PROTECTED_ADMIN"] == "yes")) { ?>
 		<li class="<?= $TAB == "FM" ? 'active' : '' ?>">
 			<a href="/fm/">
 				<svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
@@ -107,7 +107,7 @@
 			</a>
 		</li>
 		<?php } ?>
-		<?php if (($_SESSION["userContext"] === "admin" && $_SESSION["POLICY_SYSTEM_HIDE_SERVICES"] !== "yes") || $_SESSION["user"] === "admin") { if (!($_SESSION["userContext"] === "admin" && $_SESSION["look"] !== "")) { ?>
+		<?php if (($_SESSION["userContext"] === "admin" && $_SESSION["POLICY_SYSTEM_HIDE_SERVICES"] !== "yes") || $_SESSION["user"] === $_SESSION["ROOT_USER"]) { if (!($_SESSION["userContext"] === "admin" && $_SESSION["look"] !== "")) { ?>
 		<li class="<?= in_array($TAB, ["SERVER","IP","RRD","FIREWALL"]) ? 'active' : '' ?>">
 			<a href="/list/server/">
 				<svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" fill="none" stroke="currentColor" stroke-width="2"/></svg>

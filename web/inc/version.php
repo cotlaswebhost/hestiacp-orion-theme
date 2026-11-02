@@ -1,3 +1,3 @@
 <?php
-define('HESTIA_VERSION', '1.9.4');
+define('HESTIA_VERSION', '1.9.9');
 ?>
